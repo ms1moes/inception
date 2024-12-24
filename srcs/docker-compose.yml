@@ -1,0 +1,53 @@
+version: "3.0"
+
+services:
+  mariadb:
+    container_name: mariadb # Name of the container
+    image: mariadb # Use the custom MariaDB image
+    build:
+      context: requirements/mariadb/ # Build context for MariaDB
+    volumes:
+      - mariadb:/var/lib/mysql # Mount the MariaDB data volume
+    env_file:
+      - .env # Load environment variables from the .env file
+    ports:
+      - "3306:3306" # Map port 3306 of the container to port 3306 of the host
+    networks:
+      - inception # Attach the container to the 'inception' network
+
+  nginx:
+    container_name: nginx # Name of the container
+    image: nginx # Use the custom NGINX image
+    build:
+      context: requirements/nginx/ # Build context for NGINX
+    ports:
+      - "443:443" # Map port 443 of the container to port 443 of the host
+    volumes:
+      - wordpress:/var/www/wordpress # Mount the WordPress files volume
+    env_file:
+      - .env # Load environment variables from the .env file
+    depends_on:
+      - mariadb # Ensure NGINX starts after MariaDB
+    networks:
+      - inception # Attach the container to the 'inception' network
+
+# Define the custom bridge network for container communication
+networks:
+  inception:
+    driver: bridge
+
+# Define the persistent volumes
+volumes:
+  wordpress:
+    driver: local # Use the local driver
+    driver_opts: # Bind to a specific host directory
+      type: 'none'
+      o: 'bind'
+      device: /home/msimoes-/data/wordpress
+        
+  mariadb:
+    driver: local # Use the local driver
+    driver_opts: # Bind to a specific host directory
+      type: 'none'
+      o: 'bind'
+      device: /home/msimoes-/data/mariadb

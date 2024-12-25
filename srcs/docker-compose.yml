@@ -15,6 +15,22 @@ services:
     networks:
       - inception # Attach the container to the 'inception' network
 
+  wordpress:
+    container_name: wordpress # Name of the container
+    image: wordpress # Use the custom WordPress image
+    build:
+      context: requirements/wordpress/ # Build context for WordPress
+    volumes:
+      - wordpress:/var/www/wordpress # Mount the WordPress files volume
+    env_file:
+      - .env # Load environment variables from the .env file
+    ports:
+      - "9000:9000" # Map port 9000 of the container to port 9000 of the host
+    depends_on:
+      - mariadb # Ensure WordPress starts after MariaDB
+    networks:
+      - inception # Attach the container to the 'inception' network
+
   nginx:
     container_name: nginx # Name of the container
     image: nginx # Use the custom NGINX image

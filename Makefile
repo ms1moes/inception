@@ -14,8 +14,8 @@ remove:
 
 #only if need full reset
 prune:
-	sudo rm -rf /home/learodri/data/mariadb/*
-	sudo rm -rf /home/learodri/data/wordpress/*
+	sudo rm -rf /home/msimoes-/data/mariadb/*
+	sudo rm -rf /home/msimoes-/data/wordpress/*
 	docker-compose -f srcs/docker-compose.yml down --rmi all --volumes
 	docker system prune -a --volumes --force
 

@@ -34,10 +34,10 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
 
-COPY conf/wp_conf.sh .
-RUN chmod +x wp_conf.sh
+COPY conf/wp-init.sh .
+RUN chmod +x wp-init.sh
 
 USER www-data
 ENV HOME=/var/www
 
-ENTRYPOINT ["./wp_conf.sh"]
+ENTRYPOINT ["./wp-init.sh"]

@@ -1,5 +1,3 @@
-
-
 services:
   mariadb:
     container_name: mariadb # Name of the container
@@ -14,6 +12,7 @@ services:
       - "3306:3306" # Map port 3306 of the container to port 3306 of the host
     networks:
       - inception # Attach the container to the 'inception' network
+    restart: unless-stopped # Restart policy
 
   wordpress:
     container_name: wordpress # Name of the container
@@ -30,6 +29,7 @@ services:
       - mariadb # Ensure WordPress starts after MariaDB
     networks:
       - inception # Attach the container to the 'inception' network
+    restart: unless-stopped # Restart policy
 
   nginx:
     container_name: nginx # Name of the container
@@ -46,6 +46,7 @@ services:
       - mariadb # Ensure NGINX starts after MariaDB
     networks:
       - inception # Attach the container to the 'inception' network
+    restart: unless-stopped # Restart policy
 
 # Define the custom bridge network for container communication
 networks:
